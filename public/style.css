@@ -1,8 +1,36 @@
+body {
+  font-family: helvetica;
+}
+
 #navbar {
   display: flex;
   justify-content: space-around;
 }
 
 .campuses img {
-  height: 200px;
+  height: 150px;
+}
+
+.single-campus img {
+  height: 300px;
+}
+
+.campus-description-paragraph {
+  text-indent: 2rem;
+}
+
+.single-student img {
+  height: 100px;
+}
+
+.green-gpa {
+  color: green;
+}
+
+.orange-gpa {
+  color: orange;
+}
+
+.red-gpa {
+  color: red;
 }

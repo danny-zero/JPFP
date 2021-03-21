@@ -11,12 +11,22 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:campusId', async (req, res, next) => {
-    console.log("hello")
-    console.log(req.body)
     try {
         const singleCampus = await Campus.findByPk(req.params.campusId)
-        console.log(singleCampus)
         res.send(singleCampus)
+    } catch (error) {
+        console.error(error)
+    }
+});
+
+router.get('/:campusId/students', async (req, res, next) => {
+    try {
+        const campusStudents = await Student.findAll({
+            where: {
+                campusId: req.params.campusId
+            }
+        })
+       res.send(campusStudents)
     } catch (error) {
         console.error(error)
     }

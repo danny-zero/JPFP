@@ -5,11 +5,13 @@ import thunk from 'redux-thunk'
 import campuses from './campuses'
 import students from './students'
 import singleCampusReducer from './singleCampus';
+import singleStudentReducer from './singleStudent';
 
 const reducer = combineReducers({
     campuses,
     students,
-    singleCampusReducer
+    singleCampusReducer,
+    singleStudentReducer
 })
 
 const middleware = composeWithDevTools(

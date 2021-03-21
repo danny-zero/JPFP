@@ -21,7 +21,7 @@ class Campuses extends Component {
     }
 
     render() {
-        console.log(this.props)
+        // console.log(this.props)
         const {campuses} = this.props
         return (
             <div className="campuses">

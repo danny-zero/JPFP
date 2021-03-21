@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize")
-const { STRING, TEXT, UUID, UUIDV4, INTEGER, VIRTUAL, DECIMAL } = Sequelize;
+const { STRING, TEXT, UUID, UUIDV4, INTEGER, VIRTUAL, DECIMAL, ARRAY } = Sequelize;
 const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost:5432/jpfp', {logging: false});
 const faker = require('faker');
 
@@ -28,7 +28,7 @@ const Campus = db.define('campus', {
         }
     },
     description: {
-        type: TEXT
+        type: ARRAY(TEXT)
     },
 },
 {
@@ -66,10 +66,16 @@ const Student = db.define('student', {
     },
     imageUrl: {
         type: STRING,
-        defaultValue: 'server/public/images/defaultprofilepic.png'
+        defaultValue: './public/images/defaultprofilepic.png'
     },
     gpa: {
         type: DECIMAL
+    },
+    fullName: {
+        type: VIRTUAL,
+        get() {
+            return `${this.firstName} ${this.lastName}`
+        }
     }
 },
     {
@@ -91,21 +97,39 @@ const syncAndSeed = async () => {
     for (let i = 0; i < 10; i++) {
         const firstName = faker.name.firstName()
         const lastName = faker.name.lastName()
-       await Student.create({
+        const student = await Student.create({
             firstName,
             lastName,
-            email: `${firstName}.${lastName}@campus.edu`,
+            email: `${firstName[0].toLowerCase() + firstName.slice(1)}.${lastName[0].toLowerCase() + lastName.slice(1)}@campus.edu`,
             gpa: (Math.random() * 4).toFixed(2)
 
         })
         const latin = faker.lorem.word()
         const name = `${latin[0].toUpperCase() + latin.slice(1)} University`
-        await Campus.create({
+        let description = []
+        for (let i = 0; i < 3; i++) {
+            description.push(faker.lorem.paragraph())
+        }
+        const campus = await Campus.create({
             name,
             imageUrl: 'https://source.unsplash.com/1600x900/?university,building,campus',
-            address: faker.address.streetAddress()
+            address: faker.address.streetAddress(),
+            description
         })
+        student.campusId = campus.id;
+        student.save()
     }
+
+    const firstName = faker.name.firstName()
+        const lastName = faker.name.lastName()
+        const noSchoolStudent = await Student.create({
+            firstName,
+            lastName,
+            email: `${firstName[0].toLowerCase() + firstName.slice(1)}.${lastName[0].toLowerCase() + lastName.slice(1)}@campus.edu`,
+            gpa: (Math.random() * 4).toFixed(2)
+
+        })
+        console.log(noSchoolStudent)
 }
 
 
