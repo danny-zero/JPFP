@@ -40,6 +40,16 @@ router.post('/add-campus', async (req, res, next) => {
     } catch (error) {
         console.error(error)
     }
+});
+
+router.delete('/delete-campus/:id', async (req, res, next) => {
+    try {
+        const campus = (await Campus.findByPk(req.params.id));
+        await campus.destroy()
+        res.send(campus)
+    } catch (error) {
+        console.error(error)
+    }
 })
 
 

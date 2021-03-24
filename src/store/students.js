@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const GET_STUDENTS = 'GET_STUDENTS';
 const CREATE_STUDENT = 'CREATE_STUDENT';
+const DELETE_STUDENT = 'DELETE_STUDENT'
 
 const getStudents = (students) => {
     return {
@@ -35,6 +36,20 @@ export const createStudentThunk = (firstName, lastName, email) => {
     }
 }
 
+const deleteStudent = (student) => {
+    return {
+        type: DELETE_STUDENT,
+        student
+    }
+}
+
+export const deleteStudentThunk = (student) => {
+    return async (dispatch) => {
+        const deletedStudent = (await axios.delete(`api/students/delete-student/${student.id}`)).data;
+        dispatch(deleteStudent(deletedStudent))
+    }
+}
+
 
 const initialState = [];
 
@@ -44,6 +59,9 @@ const studentReducer = (state = initialState, action) => {
     }
     if (action.type === CREATE_STUDENT) {
         return [...state, action.student]
+    }
+    if (action.type === DELETE_STUDENT) {
+        return state.filter(student => student.id !== action.student.id)
     }
     return state
 }

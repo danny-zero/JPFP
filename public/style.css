@@ -18,9 +18,17 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin: 10px;
 }
 
-.campus-card img {
+.campus-card-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.campus-card-link img {
   height: 100px;
 }
 

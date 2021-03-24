@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const GET_CAMPUSES = 'GET_CAMPUSES'
 const CREATE_CAMPUS = 'CREATE_CAMPUS';
+const DELETE_CAMPUS = 'DELETE_CAMPUS';
 
 const getCampuses = (campuses) => {
     return {
@@ -31,6 +32,24 @@ export const postCampus = (campusName, campusAddress) => {
     }
 }
 
+const deleteCampus = (campus) => {
+    return {
+        type: DELETE_CAMPUS,
+        campus
+    }
+}
+
+export const deleteThunk = (campus) => {
+    return async (dispatch) => {
+        const deletedCampus = (await axios.delete(`/api/campuses/delete-campus/${campus.id}`)).data;
+        dispatch(deleteCampus(deletedCampus))
+        // why was this working? ↴
+        // await axios.delete(`/api/campuses/delete-campus/${campus.id}`);
+        // dispatch(deleteCampus(campus))
+        /////////////////////////////////
+    }
+}
+
 const initialState = [];
 
 const campusReducer = (state = initialState, action) => {
@@ -39,6 +58,9 @@ const campusReducer = (state = initialState, action) => {
     }
     if (action.type === CREATE_CAMPUS) {
         return [...state, action.campus]
+    }
+    if (action.type === DELETE_CAMPUS) {
+        return state.filter((campus) => campus.id !== action.campus.id);
     }
     return state
 }

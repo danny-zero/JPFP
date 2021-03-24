@@ -29,7 +29,19 @@ router.post('/add-student', async (req, res, next) => {
     try {
         console.log("req.body", req.body)
         const newStudent = await Student.create(req.body)
+        newStudent.imageUrl = (await axios.get('https://dog.ceo/api/breeds/image/random')).data.message;
+        newStudent.save()
         res.send(newStudent)
+    } catch (error) {
+        console.error(error)
+    }
+});
+
+router.delete('/delete-student/:id', async (req, res, next) => {
+    try {
+        const deletedStudent = await Student.findByPk(req.params.id);
+        await deletedStudent.destroy();
+        res.send(deletedStudent)
     } catch (error) {
         console.error(error)
     }

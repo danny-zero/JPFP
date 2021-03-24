@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { fetchCampuses } from '../store/campuses';
+import { fetchCampuses, deleteThunk } from '../store/campuses';
 import { connect } from 'react-redux';
 import { Link, HashRouter as Router, Route } from 'react-router-dom';
 import AddCampusForm from './AddCampusForm';
+
 
 const mapStateToProps = (state) => {
     return {
@@ -12,11 +13,23 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadCampuses: () => dispatch(fetchCampuses())
+        loadCampuses: () => dispatch(fetchCampuses()),
+        localDeleteCampus: (campus) => dispatch(deleteThunk(campus))
     }
 }
 
 class Campuses extends Component {
+    constructor() {
+        super()
+
+        this.deleteCampus = this.deleteCampus.bind(this)
+    }
+
+    deleteCampus(campus) {
+        console.log(campus.id)
+        this.props.localDeleteCampus(campus)
+    }
+
     componentDidMount() {
         this.props.loadCampuses()
     }
@@ -28,17 +41,18 @@ class Campuses extends Component {
         return (
             <div>
                 <AddCampusForm history={history}/>
-                <h1>Campuses</h1>
+                <h1>Campuses({campuses.length})</h1>
                 <div className="campus-list">
                     {
                     campuses.map((campus) => {
                         return (
-                            <Link to={`/campuses/${campus.id}`} key={campus.id}>
-                            <div className="campus-card">
-                                <img src={campus.imageUrl} />
-                                <p>{campus.name}</p>
+                            <div className="campus-card" key={campus.id}>
+                                <Link className="campus-card-link" to={`/campuses/${campus.id}`}>
+                                    <img src={campus.imageUrl} />
+                                    <p>{campus.name}</p>
+                                </Link>
+                                <button onClick={() => this.deleteCampus(campus)}>Delete</button>
                             </div>
-                            </Link>
                         )
                     })
                 }
