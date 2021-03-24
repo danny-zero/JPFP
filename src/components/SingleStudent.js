@@ -47,7 +47,9 @@ class SingleStudent extends Component {
                         <td><h3 className={singleStudent.gpa > 2.3 ? 'green-gpa' 
                                             : singleStudent.gpa < 2.3 && singleStudent.gpa >= 1.7 ? 'orange-gpa' 
                                             : singleStudent.gpa < 1.7 ? 'red-gpa' 
-                                            : '' }>{singleStudent.gpa}</h3></td>
+                                            : '' }>{singleStudent.gpa}</h3>
+                        </td>
+                        <td><h3>{singleStudent.gender === 'female' ? 'goodgurl' : 'goodboi'}</h3></td>
                     </tr>
                 </tbody>
             </table>

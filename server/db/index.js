@@ -2,6 +2,8 @@ const Sequelize = require("sequelize")
 const { STRING, TEXT, UUID, UUIDV4, INTEGER, VIRTUAL, DECIMAL, ARRAY } = Sequelize;
 const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost:5432/jpfp', {logging: false});
 const faker = require('faker');
+const {randomCampusSelection, randomNameGenerator} = require('./helperFunctions');
+const axios = require('axios');
 
 //MODELS
 const Campus = db.define('campus', {
@@ -18,7 +20,8 @@ const Campus = db.define('campus', {
         }
     },
     imageUrl: {
-        type: STRING
+        type: STRING,
+        defaultValue: 'public/images/pawprintt.jpg'
     },
     address: {
         type: STRING,
@@ -57,6 +60,9 @@ const Student = db.define('student', {
             notEmpty: true
         }
     },
+    gender: {
+        type: STRING
+    },
     email: {
         type: STRING,
         allowNull: false,
@@ -66,7 +72,7 @@ const Student = db.define('student', {
     },
     imageUrl: {
         type: STRING,
-        defaultValue: './public/images/defaultprofilepic.png'
+        defaultValue: 'https://dog.ceo/api/breeds/image/random'
     },
     gpa: {
         type: DECIMAL
@@ -94,42 +100,42 @@ Campus.hasMany(Student)
 const syncAndSeed = async () => {
     await db.sync({force: true});
 
+    //CREATE CAMPUSES
+    const campusContainer = [];
+
     for (let i = 0; i < 10; i++) {
-        const firstName = faker.name.firstName()
+        const breed = (await axios.get('https://dog.ceo/api/breeds/list/random')).data.message;
+        const name = `${breed[0].toUpperCase() + breed.slice(1)} Obedience School`
+        let description = []
+        for (let i = 0; i < 3; i++) {
+            description.push(faker.lorem.paragraph())
+            }
+        const campus = await Campus.create({
+                name,
+                imageUrl: 'public/images/pawprintt.jpg',
+                address: faker.address.streetAddress(),
+                description
+        });
+        campusContainer.push(campus.id)
+    }
+
+    //CREATE STUDENTS
+    for (let i = 0; i < 20; i++) {
+        const {firstName, gender} = randomNameGenerator()
         const lastName = faker.name.lastName()
         const student = await Student.create({
             firstName,
             lastName,
-            email: `${firstName[0].toLowerCase() + firstName.slice(1)}.${lastName[0].toLowerCase() + lastName.slice(1)}@campus.edu`,
+            gender,
+            email: `${firstName[0].toLowerCase() + firstName.slice(1)}.${lastName[0].toLowerCase() + lastName.slice(1)}@obedience.isruff`,
+            imageUrl: (await axios.get('https://dog.ceo/api/breeds/image/random')).data.message,
             gpa: (Math.random() * 4).toFixed(2)
+        })
 
-        })
-        const latin = faker.lorem.word()
-        const name = `${latin[0].toUpperCase() + latin.slice(1)} University`
-        let description = []
-        for (let i = 0; i < 3; i++) {
-            description.push(faker.lorem.paragraph())
-        }
-        const campus = await Campus.create({
-            name,
-            imageUrl: 'https://source.unsplash.com/1600x900/?university,building,campus',
-            address: faker.address.streetAddress(),
-            description
-        })
-        student.campusId = campus.id;
-        student.save()
+        //ASSIGN A STUDENT A RANDOM CAMPUS
+        randomCampusSelection(student, campusContainer)
     }
 
-    const firstName = faker.name.firstName()
-        const lastName = faker.name.lastName()
-        const noSchoolStudent = await Student.create({
-            firstName,
-            lastName,
-            email: `${firstName[0].toLowerCase() + firstName.slice(1)}.${lastName[0].toLowerCase() + lastName.slice(1)}@campus.edu`,
-            gpa: (Math.random() * 4).toFixed(2)
-
-        })
-        console.log(noSchoolStudent)
 }
 
 

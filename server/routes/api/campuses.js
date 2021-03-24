@@ -30,6 +30,16 @@ router.get('/:campusId/students', async (req, res, next) => {
     } catch (error) {
         console.error(error)
     }
+});
+
+router.post('/add-campus', async (req, res, next) => {
+    try {
+        // console.log("req.body", req.body)
+        const newCampus = await Campus.create(req.body)
+        res.send(newCampus)
+    } catch (error) {
+        console.error(error)
+    }
 })
 
 

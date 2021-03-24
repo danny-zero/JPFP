@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {fetchStudents} from '../store/students';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import AddStudentForm from './AddStudentForm';
 
 const mapStateToProps = (state) => {
     return {
@@ -24,13 +25,21 @@ class Students extends Component {
         // console.log(this.props)
         return (
             <div>
-               {
-                   students.map((student) => {
-                       return (
-                           <Link to={`/students/${student.id}`} key={student.id}><p>{student.lastName}, {student.firstName}</p></Link>
-                       )
-                   }) 
-               }
+                <AddStudentForm history={history}/>
+                <div className="student-list">
+                    {
+                        students.map((student) => {
+                            return (
+                                    <Link to={`/students/${student.id}`} key={student.id}>
+                                    <div className="student-card">
+                                        <img src={student.imageUrl} />
+                                        <p>"{student.firstName}" {student.lastName}</p>
+                                    </div>
+                                    </Link>
+                                )
+                        }) 
+                    }
+                </div>
             </div>
         )
     }

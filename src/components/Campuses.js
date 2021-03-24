@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { fetchCampuses } from '../store/campuses';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, HashRouter as Router, Route } from 'react-router-dom';
+import AddCampusForm from './AddCampusForm';
 
 const mapStateToProps = (state) => {
     return {
@@ -21,16 +22,19 @@ class Campuses extends Component {
     }
 
     render() {
-        // console.log(this.props)
-        const {campuses} = this.props
+        console.log("ALL CAMPUSES", this.props)
+        const {campuses, history} = this.props
+        // console.log("HOW MANY CAMPUSES?", campuses.length)
         return (
-            <div className="campuses">
+            <div>
+                <AddCampusForm history={history}/>
                 <h1>Campuses</h1>
-                {
+                <div className="campus-list">
+                    {
                     campuses.map((campus) => {
                         return (
                             <Link to={`/campuses/${campus.id}`} key={campus.id}>
-                            <div>
+                            <div className="campus-card">
                                 <img src={campus.imageUrl} />
                                 <p>{campus.name}</p>
                             </div>
@@ -38,6 +42,7 @@ class Campuses extends Component {
                         )
                     })
                 }
+                </div>
             </div>
         )
     }

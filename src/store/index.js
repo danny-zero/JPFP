@@ -11,7 +11,7 @@ const reducer = combineReducers({
     campuses,
     students,
     singleCampusReducer,
-    singleStudentReducer
+    singleStudentReducer,
 })
 
 const middleware = composeWithDevTools(

@@ -7,8 +7,21 @@ body {
   justify-content: space-around;
 }
 
-.campuses img {
-  height: 150px;
+.campus-list {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.campus-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.campus-card img {
+  height: 100px;
 }
 
 .single-campus img {
@@ -17,6 +30,25 @@ body {
 
 .campus-description-paragraph {
   text-indent: 2rem;
+}
+
+.student-list {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.student-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 5px;
+}
+
+.student-card img {
+  height: 100px;
 }
 
 .single-student img {
