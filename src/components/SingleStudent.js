@@ -28,6 +28,7 @@ class SingleStudent extends Component {
         return (
             <div className="single-student">
                 <img className="student-image" src={singleStudent.imageUrl}/>
+                <Link to={`/edit/student/${singleStudent.id}`}>Edit</Link>
             <table>
                 <tbody>
                     <tr>

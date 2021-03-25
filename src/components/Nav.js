@@ -7,7 +7,7 @@ const Nav = (props) => {
         <div id='navbar' className='row'>
             <NavLink to='/'>Home</NavLink>
             <NavLink to='/students' activeStyle={{fontWeight: "bold", color: "red"}}>Students</NavLink>
-            <NavLink to='/campuses' activeStyle={{fontWeight: "bold", color: "red"}}>Campuses</NavLink>
+            <NavLink to='/campuses/' activeStyle={{fontWeight: "bold", color: "red"}}>Campuses</NavLink>
         </div>
     )
 }

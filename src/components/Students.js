@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {fetchStudents, deleteStudentThunk} from '../store/students';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, HashRouter as Router, Route } from 'react-router-dom';
 import AddStudentForm from './AddStudentForm';
 
 const mapStateToProps = (state) => {
@@ -40,7 +40,9 @@ class Students extends Component {
         // console.log(this.props)
         return (
             <div>
-                <AddStudentForm history={history}/>
+                {/* <AddStudentForm history={history}/> */}
+                <Link to={'/students/add-student'}>Add Student</Link>
+                <Route path='/students/add-student' render={() => <AddStudentForm history={history}/>}/>
                 <div className="student-list">
                     {
                         students.map((student) => {

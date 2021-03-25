@@ -50,7 +50,21 @@ router.delete('/delete-campus/:id', async (req, res, next) => {
     } catch (error) {
         console.error(error)
     }
-})
+});
+
+router.put('/edit-campus/:id', async (req, res, next) => {
+    try {
+        console.log("edit", req.body)
+        const campus = await Campus.findByPk(req.params.id);
+        campus.name = req.body.name
+        campus.address = req.body.address
+        campus.description = req.body.description.split('\n')
+        await campus.save()
+        res.send(campus)
+    } catch (error) {
+        console.error(error)
+    }
+});
 
 
 module.exports = router;

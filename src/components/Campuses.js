@@ -40,14 +40,16 @@ class Campuses extends Component {
         // console.log("HOW MANY CAMPUSES?", campuses.length)
         return (
             <div>
-                <AddCampusForm history={history}/>
+                {/* <AddCampusForm history={history}/> */}
+                <Link to={'/campuses/add-campus'}>Add campus</Link>
+                <Route path='/campuses/add-campus' render={() => <AddCampusForm history={history} />}/>
                 <h1>Campuses({campuses.length})</h1>
                 <div className="campus-list">
                     {
                     campuses.map((campus) => {
                         return (
                             <div className="campus-card" key={campus.id}>
-                                <Link className="campus-card-link" to={`/campuses/${campus.id}`}>
+                                <Link className="campus-card-link" to={`/campuses/single-campus/${campus.id}`}>
                                     <img src={campus.imageUrl} />
                                     <p>{campus.name}</p>
                                 </Link>

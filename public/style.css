@@ -7,6 +7,12 @@ body {
   justify-content: space-around;
 }
 
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .campus-list {
   display: flex;
   justify-content: space-around;
@@ -40,6 +46,14 @@ body {
   text-indent: 2rem;
 }
 
+.campus-student-list {
+  display: flex;
+}
+
+.campus-student-list button {
+  margin-left: 10px;
+}
+
 .student-list {
   margin-top: 20px;
   display: flex;
@@ -61,6 +75,14 @@ body {
 
 .single-student img {
   height: 100px;
+}
+
+.update-input {
+  width: 20rem;
+}
+
+.update-input-textarea {
+  width: 30rem;
 }
 
 .green-gpa {
