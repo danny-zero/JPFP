@@ -5,6 +5,20 @@ const faker = require('faker');
 const {randomCampusSelection, randomNameGenerator} = require('./helperFunctions');
 const axios = require('axios');
 
+//ARRAY OF LOGOS FOR CAMPUSES
+const campusImgArr = [
+            'public/images/logos/dog-logos-2.jpg',
+            'public/images/logos/dog-logos-4.jpg',
+            'public/images/logos/dog-logos-7.jpg',
+            'public/images/logos/dog-logos-10.jpg',
+            'public/images/logos/dog-logos-11.jpg',
+            'public/images/logos/dog-logos-17.jpg',
+            'public/images/logos/dog-logos-18.jpg',
+            'public/images/logos/dog-logos-19.jpg',
+            'public/images/logos/dog-logos-22.jpg',
+            'public/images/logos/dog-logos-23.jpg',
+        ]
+
 //MODELS
 const Campus = db.define('campus', {
     id: {
@@ -80,7 +94,7 @@ const Student = db.define('student', {
     fullName: {
         type: VIRTUAL,
         get() {
-            return `${this.firstName} ${this.lastName}`
+            return `"${this.firstName}" ${this.lastName}`
         }
     }
 },
@@ -112,7 +126,7 @@ const syncAndSeed = async () => {
             }
         const campus = await Campus.create({
                 name,
-                imageUrl: 'public/images/pawprintt.jpg',
+                imageUrl: campusImgArr[i],
                 address: faker.address.streetAddress(),
                 description
         });

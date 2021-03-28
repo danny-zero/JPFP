@@ -3,8 +3,12 @@ const { default: axios } = require('axios');
 const { models: {Campus, Student }} = require('../../db');
 
 router.get('/', async (req, res, next) => {
-    try {
-        const students = await Student.findAll()
+     try {
+        const students = await Student.findAll({
+            include: [Campus]
+        })
+        const campuses = await Campus.findAll()
+        const result = {students, campuses}
         res.send(students)
     } catch (error) {
         console.error(error)
@@ -19,9 +23,11 @@ router.get('/:studentId', async (req, res, next) => {
             },
             include: [Campus]
         })
+        // console.log("singleStudent", singleStudent)
         res.send(singleStudent)
     } catch (error) {
         console.error(error)
+        res.send({data: 'not found'})
     }
 });
 
@@ -30,6 +36,7 @@ router.post('/add-student', async (req, res, next) => {
         console.log("req.body", req.body)
         const newStudent = await Student.create(req.body)
         newStudent.imageUrl = (await axios.get('https://dog.ceo/api/breeds/image/random')).data.message;
+        newStudent.campusId = req.body.school === 'null' ? null : req.body.school
         newStudent.save()
         res.send(newStudent)
     } catch (error) {

@@ -9,6 +9,7 @@ const app = express();
 
 app.use('/dist', static(path.join(__dirname, '../dist')));
 app.use('/public', static(path.join(__dirname, '../public')));
+app.use('/font-awesome', express.static('node_modules/font-awesome-animation/css/'))
 app.use(express.json())
 
 app.use(require('../server/routes'))

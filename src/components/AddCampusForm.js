@@ -28,7 +28,23 @@ class AddCampusForm extends Component {
 
     onSubmitForm(event) {
         event.preventDefault();
-        this.props.axiosPostUser(this.state.campusName, this.state.campusAddress)
+        let keepGoing = true
+        for (let i = 0; i < event.target.elements.length - 1; i++) {
+            if (event.target.elements[i].value === '') {
+                const result = event.target.elements[i].name.split(/(?=[A-Z])/)
+                const capital = result[0][0].toUpperCase() + result[0].slice(1)
+                const label = `${capital} ${result[1]}`
+                keepGoing = false
+                alert(`${label} cannot be blank`)
+            }
+        }
+        if (keepGoing) {
+            this.props.axiosPostUser(this.state.campusName, this.state.campusAddress)
+        }
+        
+        // this.props.history.push('/campuses')
+        this.props.history.push('/temp')
+        this.props.history.goBack();
     }
 
     render() {

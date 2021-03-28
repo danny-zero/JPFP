@@ -38,14 +38,16 @@ export const editStudentThunk = (id, firstName, lastName, school, email, history
 
 const initialState = {
     singleStudent: {},
-    studentCampus: {}
+    studentCampus: {},
+    loading: true
 }
 
 const singleStudentReducer = (state = initialState, action) => {
     if (action.type === GET_SINGLE_STUDENT) {
         return {
             singleStudent: action.student,
-            studentCampus: action.student.campus
+            studentCampus: action.student.campus,
+            loading: false
         }
     }
     if (action.type === EDIT_STUDENT) {

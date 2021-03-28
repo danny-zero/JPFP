@@ -4,11 +4,12 @@ import { NavLink } from 'react-router-dom';
 const Nav = (props) => {
     // console.log("Nav", props)
     return (
-        <div id='navbar' className='row'>
-            <NavLink to='/'>Home</NavLink>
-            <NavLink to='/students' activeStyle={{fontWeight: "bold", color: "red"}}>Students</NavLink>
-            <NavLink to='/campuses/' activeStyle={{fontWeight: "bold", color: "red"}}>Campuses</NavLink>
-        </div>
+        <ul className="nav nav-tabs">
+            <li className="nav-item"><NavLink className="nav-link" to='/'>&#128054; &nbsp; Home</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link" to='/students' activeStyle={{fontWeight: "bold", color: "red"}}>Students</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link" to='/campuses/' activeStyle={{fontWeight: "bold", color: "red"}}>Campuses</NavLink></li>
+
+        </ul>
     )
 }
 

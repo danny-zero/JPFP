@@ -9,8 +9,44 @@ body {
 
 .home-container {
   display: flex;
-  justify-content: center;
+  height: 100vh;
   align-items: center;
+  background-image: url("/public/images/photo-1587300003388-59208cc962cb.jpeg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.home-container img {
+  border-radius: 50%;
+  margin-left: 20px;
+}
+
+.row-col-img {
+  height: 50rem;
+}
+
+.home-col-left {
+  display: flex;
+  justify-content: center;
+}
+
+.doggo-para {
+  text-indent: 50px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-around;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 99999;
+}
+
+.home-row {
+  padding: 20px;
 }
 
 .campus-list {
@@ -35,7 +71,7 @@ body {
 }
 
 .campus-card-link img {
-  height: 100px;
+  height: 150px;
 }
 
 .single-campus img {
@@ -73,8 +109,12 @@ body {
   height: 100px;
 }
 
-.single-student img {
-  height: 100px;
+.single-student-container {
+  margin-top: 20px;
+}
+
+.student-image {
+  height: 500px;
 }
 
 .update-input {
@@ -85,14 +125,64 @@ body {
   width: 30rem;
 }
 
+.gpa {
+  width: 50%;
+}
+
 .green-gpa {
   color: green;
+}
+
+.green-gpa::after {
+  content: " (goodpup)";
 }
 
 .orange-gpa {
   color: orange;
 }
 
+.orange-gpa::after {
+  content: " (still a goodpup)";
+}
+
 .red-gpa {
   color: red;
+}
+
+.red-gpa::after {
+  content: " (Still a goodpup! They are all goodpups!)";
+}
+
+.doggo404 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*Bootstrap*/
+.thumbnail {
+  height: 100px;
+  width: 1px;
+}
+
+.p-to-pointer {
+  cursor: pointer;
+}
+
+.sort-and-filter {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 3rem;
+}
+
+.add-campus-form input {
+  margin-left: 4px;
+}
+
+.add-campus-form button {
+  margin-left: 4px;
+}
+
+.add-button {
+  margin-bottom: 10px;
 }

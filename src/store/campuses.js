@@ -3,6 +3,7 @@ import axios from 'axios';
 const GET_CAMPUSES = 'GET_CAMPUSES'
 const CREATE_CAMPUS = 'CREATE_CAMPUS';
 const DELETE_CAMPUS = 'DELETE_CAMPUS';
+export const FILTER_CAMPUSES = 'FILTER_CAMPUSES';
 
 const getCampuses = (campuses) => {
     return {
@@ -61,6 +62,9 @@ const campusReducer = (state = initialState, action) => {
     }
     if (action.type === DELETE_CAMPUS) {
         return state.filter((campus) => campus.id !== action.campus.id);
+    }
+    if (action.type === FILTER_CAMPUSES) {
+        return action.filtered
     }
     return state
 }

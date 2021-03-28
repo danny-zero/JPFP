@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Table, Modal, Container, Row, Col, Button, Alert, Breadcrumb, Card, Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link, Route, NavLink } from 'react-router-dom';
 import { fetchSingleCampus, editCampusThunk } from '../store/singleCampus';
@@ -62,27 +63,25 @@ class EditCampusForm extends Component {
     render() {
         const {singleCampus, campusStudents} = this.props;
         return (
-            <div>
-                <form onSubmit={this.submitUpdateForm}>
-                    <div className="single-campus">
-                        <label htmlFor="name"><h3>Name: </h3></label>
-                            <input className="update-input" type="text" name="name" value={this.state.name} onChange={this.handleChange}/>
-                            <br />
-                        <img src={singleCampus.imageUrl} />
-                        <label htmlFor="address"><h3>Address: </h3></label>
-                        <input className="update-input" type="text" name="address" value={this.state.address} onChange={this.handleChange}/>
-                        <label htmlFor="description"><h3>Description: </h3></label>
-                        <input className="update-input-textarea" type="text" name="description" value={this.state.description} onChange={this.handleChange}/>
-                        <br />
-                    </div>
-                    <button>Submit</button>
-                    </form>
+            <Container className=" single-campus mt-5">
+            <Link to={`/campuses/single-campus/${this.props.singleCampus.id}`}><img src={singleCampus.imageUrl} /></Link>
+                <Form onSubmit={this.submitUpdateForm}>
+                    <Form.Label><strong>Name:</strong></Form.Label>
+                    <Form.Control className="update-input" type="text" name="name" value={this.state.name} onChange={this.handleChange}/>
+                    <Form.Label><strong>Address:</strong></Form.Label>
+                    <Form.Control className="update-input" type="text" name="address" value={this.state.address} onChange={this.handleChange}/>
+                    <Form.Label><strong>Description:</strong></Form.Label>
+                    <Form.Control className="update-input-textarea" type="text" name="description" value={this.state.description} onChange={this.handleChange}/>
+                    <Button variant="primary mt-5" type="submit">Submit</Button>
+                    </Form>
                     <div>
+                    <Row className="mt-5">
                     <NavLink to={`/edit/campus/${singleCampus.id}/students`} activeStyle={{fontWeight: "bold", color: "red"}}><h2>See the Students of {singleCampus.name}</h2></NavLink>
+                    </Row>
                     <hr />
                     <Route exact path="/edit/campus/:campusId/students" render={() => <CampusStudentList campusStudents={campusStudents} />}></Route>
                 </div>
-            </div>
+            </Container>
         )
     }
 }
