@@ -4,6 +4,7 @@ import { fetchCampuses, deleteThunk, FILTER_CAMPUSES } from '../store/campuses';
 import { connect } from 'react-redux';
 import { Link, NavLink, HashRouter as Router, Route } from 'react-router-dom';
 import AddCampusForm from './AddCampusForm';
+import FrontEndPagination from './FrontEndPagination';
 
 
 
@@ -25,13 +26,31 @@ class Campuses extends Component {
     constructor() {
         super()
         this.state = {
-            modalIsOpen: false
+            modalIsOpen: false,
+            currentPage: 1,
+            listingsPerPage: 10
         }
 
         this.deleteCampus = this.deleteCampus.bind(this)
         this.sortCampuses = this.sortCampuses.bind(this)
         this.filterCampuses = this.filterCampuses.bind(this)
         this.modalControl = this.modalControl.bind(this)
+        this.paginate = this.paginate.bind(this)
+        this.createPageNumbers = this.createPageNumbers.bind(this)
+    }
+
+    paginate(pageNumber) {
+        this.setState({
+            currentPage: pageNumber
+        })
+    }
+
+    createPageNumbers() {
+        const pages = []
+        for (let i = 1; i <= Math.ceil(this.props.campuses.length / this.state.listingsPerPage); i++) {
+            pages.push(i)
+        }
+        return pages
     }
 
     modalControl(val) {
@@ -105,6 +124,11 @@ class Campuses extends Component {
         // console.log(campuses)
         // console.log("PROPS", this.props)
         // console.log(this.state)
+
+        const indexOfLastListing = this.state.currentPage * this.state.listingsPerPage;
+        const indexOfFirstListing = indexOfLastListing - this.state.listingsPerPage;
+        const currentListings = campuses.slice(indexOfFirstListing, indexOfLastListing)
+
         return (
             <Container>
                 <h1>Campuses({campuses.length})</h1>
@@ -131,10 +155,11 @@ class Campuses extends Component {
                             <Dropdown.Item onClick={() => this.filterCampuses('clear')}>Clear Filters</Dropdown.Item>
                     </DropdownButton>
                 </div>
-                
-                <div className="campus-list">
+
+                <FrontEndPagination paginate={this.paginate} pages={this.createPageNumbers()}/>
+                <div className="trying-pagination campus-list">
                     {
-                    campuses.map((campus, index) => {
+                    currentListings.map((campus) => {
                         return (
                             <div className="campus-card" key={campus.id}>
                                 <Link className="campus-card-link" to={`/campuses/single-campus/${campus.id}`}>

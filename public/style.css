@@ -186,3 +186,8 @@ body {
 .add-button {
   margin-bottom: 10px;
 }
+
+.pagination-center {
+  display: flex;
+  justify-content: center;
+}

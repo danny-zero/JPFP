@@ -117,7 +117,7 @@ const syncAndSeed = async () => {
     //CREATE CAMPUSES
     const campusContainer = [];
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 100; i++) {
         const breed = (await axios.get('https://dog.ceo/api/breeds/list/random')).data.message;
         const name = `${breed[0].toUpperCase() + breed.slice(1)} Obedience School`
         let description = []
@@ -134,7 +134,7 @@ const syncAndSeed = async () => {
     }
 
     //CREATE STUDENTS
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 100; i++) {
         const {firstName, gender} = randomNameGenerator()
         const lastName = faker.name.lastName()
         const student = await Student.create({

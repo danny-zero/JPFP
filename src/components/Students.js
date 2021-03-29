@@ -5,15 +5,13 @@ import { fetchCampuses } from '../store/campuses';
 import { connect } from 'react-redux';
 import { Link, HashRouter as Router, Route } from 'react-router-dom';
 import AddStudentForm from './AddStudentForm';
+import FrontEndPagination from './FrontEndPagination';
 
 const mapStateToProps = (state) => {
     // console.log("STUDENTS STATE", state)
     return {
         students: state.students,
-        campuses: state.campuses,
-        currentPage: 1,
-        studentsPerPage: 2
-
+        campuses: state.campuses
     }
 }
 
@@ -30,13 +28,31 @@ class Students extends Component {
     constructor() {
         super()
         this.state = {
-            modalIsOpen: false
+            modalIsOpen: false,
+            currentPage: 1,
+            listingsPerPage: 10
         }
 
         this.deleteStudent = this.deleteStudent.bind(this)
         this.sortStudents = this.sortStudents.bind(this)
         this.filterStudents = this.filterStudents.bind(this)
         this.modalControl = this.modalControl.bind(this)
+        this.paginate = this.paginate.bind(this)
+        this.createPageNumbers = this.createPageNumbers.bind(this)
+    }
+
+    paginate(pageNumber) {
+        this.setState({
+            currentPage: pageNumber
+        })
+    }
+
+    createPageNumbers() {
+        const pages = []
+        for (let i = 1; i <= Math.ceil(this.props.campuses.length / this.state.listingsPerPage); i++) {
+            pages.push(i)
+        }
+        return pages
     }
 
      modalControl(val) {
@@ -88,13 +104,16 @@ class Students extends Component {
     componentDidMount() {
         this.props.loadStudents(),
         this.props.loadCampuses()
-  }
+    }
 
 
     render() {
         const {students, campuses} = this.props || []
         // console.log("rendered")
         // console.log("campuses", campuses)
+        const indexOfLastListing = this.state.currentPage * this.state.listingsPerPage;
+        const indexOfFirstListing = indexOfLastListing - this.state.listingsPerPage;
+        const currentListings = students.slice(indexOfFirstListing, indexOfLastListing)
         return (
             // <h1>Hello</h1>
             <Container>
@@ -122,22 +141,21 @@ class Students extends Component {
                     </DropdownButton>
                 </div>
 
-                
-                <div className="student-list">
+                <FrontEndPagination paginate={this.paginate} pages={this.createPageNumbers()}/>
+                <div className="trying-pagination campus-list">
                     {
-                        students.map((student) => {
-                            return (
-                                    <div className="student-card" key={student.id}>
-                                        <Link to={`/students/single-student/${student.id}`}>
-                                        <Image className="student-img" src={student.imageUrl} rounded/>
-                                        <p>"{student.firstName}" {student.lastName}</p>
-                                        </Link>
-                                        <Button variant="btn btn-outline-danger" onClick={() => this.deleteStudent(student)}>Delete</Button>
-                                    </div>
-                                    
-                                )
-                        }) 
-                    }
+                    currentListings.map((student) => {
+                        return (
+                            <div className="student-card" key={student.id}>
+                                <Link to={`/students/single-student/${student.id}`}>
+                                    <Image className="student-img" src={student.imageUrl} rounded/>
+                                    <p>"{student.firstName}" {student.lastName}</p>
+                                </Link>
+                                <Button variant="btn btn-outline-danger" onClick={() => this.deleteStudent(student)}>Delete</Button>
+                            </div>
+                        )
+                    })
+                }
                 </div>
             </Container>
         )

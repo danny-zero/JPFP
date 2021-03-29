@@ -43,12 +43,10 @@ class AddStudentForm extends Component {
         }
 
         if (keepGoing) {
-            this.props.axiosPostUser(this.state.localFirstName, this.state.localLastName, this.state.localEmail)
+            this.props.axiosPostUser(this.state.localFirstName, this.state.localLastName, this.state.localEmail, this.state.school)
         }
 
         // this.props.history.push('/students')
-        // this.props.history.push('/temp')
-        // this.props.history.goBack();
         window.location.reload();
         
     }
@@ -83,14 +81,6 @@ class AddStudentForm extends Component {
                         name="localEmail"
                         />
                     <label htmlFor="school">School: </label>
-                    {/* <select name="school" onChange={this.onChange}>
-                        <option value='null'>Select a School</option>
-                        {
-                            campuses.map((campus) => {
-                                return <option key={campus.id} value={campus.id}>{campus.name}</option>
-                            })
-                        }
-                    </select> */}
                     {
                         typeof this.props.defaultSchool === 'object' ? (
                             <select name="school" onChange={this.onChange}><option value={this.props.defaultSchool.id}>{this.props.defaultSchool.name}</option></select>
