@@ -35,7 +35,7 @@ const Campus = db.define('campus', {
     },
     imageUrl: {
         type: STRING,
-        defaultValue: 'public/images/pawprintt.jpg'
+        defaultValue: campusImgArr[Math.floor(Math.random() * campusImgArr.length)]
     },
     address: {
         type: STRING,
@@ -126,7 +126,7 @@ const syncAndSeed = async () => {
             }
         const campus = await Campus.create({
                 name,
-                imageUrl: campusImgArr[i],
+                imageUrl: campusImgArr[Math.floor(Math.random() * campusImgArr.length)],
                 address: faker.address.streetAddress(),
                 description
         });

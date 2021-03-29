@@ -3,11 +3,20 @@ const { models: {Campus, Student }} = require('../../db');
 
 router.get('/', async (req, res, next) => {
     try {
-        const campuses = await Campus.findAll({
+         const campuses = await Campus.findAll({
             include: [Student]
         })
-        // console.log(campuses)
-        res.send(campuses)
+
+        if (req.query.page) {
+            console.log(req.query)
+            const endIndex = req.query.page * 2
+            const startIndex = endIndex - 2
+            const currentListings = campuses.slice(startIndex, endIndex)
+            res.send(currentListings)
+        } else {
+            console.log("no query")
+            res.send(campuses)
+        }
     } catch (error) {
         console.error(error)
     }
@@ -35,6 +44,7 @@ router.get('/:campusId/students', async (req, res, next) => {
         console.error(error)
     }
 });
+
 
 router.post('/add-campus', async (req, res, next) => {
     try {

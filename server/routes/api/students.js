@@ -7,9 +7,16 @@ router.get('/', async (req, res, next) => {
         const students = await Student.findAll({
             include: [Campus]
         })
-        const campuses = await Campus.findAll()
-        const result = {students, campuses}
-        res.send(students)
+        if (req.query.page) {
+            console.log(req.query)
+            const endIndex = req.query.page * 2
+            const startIndex = endIndex - 2
+            const currentListings = students.slice(startIndex, endIndex)
+            res.send(currentListings)
+        } else {
+            console.log('no query')
+            res.send(students)
+        }
     } catch (error) {
         console.error(error)
     }

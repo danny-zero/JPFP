@@ -10,7 +10,10 @@ const mapStateToProps = (state) => {
     // console.log("STUDENTS STATE", state)
     return {
         students: state.students,
-        campuses: state.campuses
+        campuses: state.campuses,
+        currentPage: 1,
+        studentsPerPage: 2
+
     }
 }
 
