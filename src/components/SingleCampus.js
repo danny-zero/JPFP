@@ -6,13 +6,15 @@ import { fetchSingleCampus, unregisterThunk } from '../store/singleCampus';
 import { fetchCampuses } from '../store/campuses';
 import CampusStudentList from './CampusStudentList';
 import axios from 'axios';
+import NotFound from './NotFound';
 
 const mapStateToProps = (state) => {
     // console.log("STATE", state)
     return {
         singleCampus: state.singleCampusReducer.singleCampus,
         campusStudents: state.singleCampusReducer.campusStudents,
-        campuses: state.campuses
+        campuses: state.campuses,
+        error: state.errorReducer.errorMessage
     }
 }
 
@@ -30,29 +32,30 @@ class SingleCampus extends Component {
 
         this.unregisterClick = this.unregisterClick.bind(this)
     }
-    async componentWillMount() {
-        const test = (await axios.get(`/api/campuses/${this.props.match.params.campusId}`)).data
-        if (test.data === 'not found') {
-            this.props.history.push('/notfound')
-        }
-        // console.log("willMount", this.props.match.params)
-    }
+    // async componentWillMount() {
+    //     const test = (await axios.get(`/api/campuses/${this.props.match.params.campusId}`)).data
+    //     if (test.data === 'not found') {
+    //         this.props.history.push('/notfound')
+    //     }
+    // }
 
     componentDidMount() {
+        // console.log("DidMount", this.props)
         this.props.loadingCampus(this.props.match.params.campusId),
         this.props.loadCampuses()
     }
+
 
     unregisterClick(campusId, id) {
         this.props.unregister(campusId, id)
     }
 
     render() {
-        // console.log("SINGLE CAMPUS", this.props)
-        // console.log("got campuses?", this.props)
         const {campuses, singleCampus, campusStudents} = this.props;
         const description = this.props.singleCampus.description || []
-        
+        const {error} = this.props
+        // console.log("hello", error)
+        if (error) return <NotFound />
         return (
             <Container className="single-campus">
                 <Row>
@@ -77,7 +80,7 @@ class SingleCampus extends Component {
                </Row>
                <hr />
                <Row>
-                    <Route path="/campuses/single-campus/:campusId/students" render={() => <CampusStudentList defaultSchool={singleCampus} campuses={campuses} campusStudents={campusStudents} unregister={this.unregisterClick}/>}></Route>
+                    <Route path="/campuses/single-campus/:campusId/students" render={() => <CampusStudentList defaultSchool={singleCampus} campuses={campuses} campusStudents={campusStudents} unregister={this.unregisterClick} modalControl={this.modalControl} history={this.props.history}/>}></Route>
                </Row>
             </Container>
         )

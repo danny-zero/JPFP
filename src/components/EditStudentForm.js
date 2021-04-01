@@ -90,7 +90,7 @@ class EditStudentForm extends Component {
                                 <option value=''>Not in School</option>
                                 {
                                     campuses.map((campus) => {
-                                        return <option key={campus.id} value={campus.name}>{campus.name}</option>
+                                        return <option key={campus.id} value={campus.id}>{campus.name}</option>
                                     })
                                 }
                             </Form.Control>

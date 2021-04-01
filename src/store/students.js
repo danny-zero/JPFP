@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const GET_STUDENTS = 'GET_STUDENTS';
-const CREATE_STUDENT = 'CREATE_STUDENT';
+export const CREATE_STUDENT = 'CREATE_STUDENT';
 const DELETE_STUDENT = 'DELETE_STUDENT';
 export const FILTER_STUDENTS = 'FILTER_STUDENTS';
 
@@ -19,7 +19,7 @@ export const fetchStudents = () => {
             // console.log(students)
             dispatch(getStudents(students))
         } catch (error) {
-            console.error(error)
+            console.log(Object.entries(error))
         }
     }
 }

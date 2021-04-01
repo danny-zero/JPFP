@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import AddStudentForm from './AddStudentForm';
 
 function CampusStudentList(props) {
-    const {campusStudents, campuses} = props;
+    const {campusStudents, campuses, history} = props;
     const campusId = props.campusIdProp
     console.log("campusstudentsList", props)
     return (
@@ -19,7 +19,7 @@ function CampusStudentList(props) {
                                 </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="0">
-                                <Card.Body><AddStudentForm campuses={campuses} defaultSchool={props.defaultSchool}/></Card.Body>
+                                <Card.Body><AddStudentForm campuses={campuses} defaultSchool={props.defaultSchool} history={history}/></Card.Body>
                             </Accordion.Collapse>
                             
                         </Card>

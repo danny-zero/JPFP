@@ -49,7 +49,7 @@ class Students extends Component {
 
     createPageNumbers() {
         const pages = []
-        for (let i = 1; i <= Math.ceil(this.props.campuses.length / this.state.listingsPerPage); i++) {
+        for (let i = 1; i <= Math.ceil(this.props.students.length / this.state.listingsPerPage); i++) {
             pages.push(i)
         }
         return pages
@@ -110,7 +110,7 @@ class Students extends Component {
     render() {
         const {students, campuses} = this.props || []
         // console.log("rendered")
-        // console.log("campuses", campuses)
+        console.log("campuses", campuses)
         const indexOfLastListing = this.state.currentPage * this.state.listingsPerPage;
         const indexOfFirstListing = indexOfLastListing - this.state.listingsPerPage;
         const currentListings = students.slice(indexOfFirstListing, indexOfLastListing)
@@ -124,7 +124,7 @@ class Students extends Component {
                     <h2>Add Student</h2>
                     </Modal.Header>
                     <Modal.Body>
-                        <AddStudentForm campuses={campuses} history={this.props.history} modalControl={this.state.modalIsOpen} defaultSchool={''}/>
+                        <AddStudentForm campuses={campuses} history={this.props.history} modalControl={this.modalControl} defaultSchool={'null'}/>
                     </Modal.Body>
                 </Modal>
                 <div className="sort-and-filter">

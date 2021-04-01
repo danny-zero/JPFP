@@ -18,7 +18,7 @@ class AddStudentForm extends Component {
             localFirstName: '',
             localLastName: '',
             localEmail: '',
-            school: ''
+            school: 'null'
         }
 
         this.onSubmitForm = this.onSubmitForm.bind(this)
@@ -32,23 +32,27 @@ class AddStudentForm extends Component {
     }
 
     onSubmitForm(event) {
+        // console.log(event.target.elements.school.value)
         event.preventDefault();
-        let keepGoing = true
-        for (let i = 0; i < event.target.elements.length - 1; i++) {
-            if (event.target.elements[i].value === '') {
-                const label = event.target.elements[i].name.replace('local', '').split(/(?=[A-Z])/).join(' ')
-                keepGoing = false
-                alert(`${label} cannot be blank`)
-            }
+
+        this.props.axiosPostUser(this.state.localFirstName, this.state.localLastName, this.state.localEmail, this.state.school)
+
+         if (this.props.modalControl) {
+            this.props.modalControl(false)
+        } else {
+            // window.location.reload() //need to remove this
+            this.props.history.push(`/campuses/single-campus/${this.props.defaultSchool.id}/students`)
         }
 
-        if (keepGoing) {
-            this.props.axiosPostUser(this.state.localFirstName, this.state.localLastName, this.state.localEmail, this.state.school)
-        }
+    }
 
-        // this.props.history.push('/students')
-        window.location.reload();
-        
+    componentDidUpdate(prevProps, prevState) {
+        // console.log("prevProps", prevProps)
+        // console.log("prevState", prevState)
+        // console.log("props", this.props)
+        if (prevState.school !== this.props.defaultSchool.id) {
+            this.setState({school: this.props.defaultSchool.id})
+        }
     }
 
     render() {
@@ -56,6 +60,10 @@ class AddStudentForm extends Component {
         // console.log("studentform", this.props)
         // console.log("TYPE", typeof this.props.defaultSchool)
         // if (typeof this.props.defaultScohol === 'string')
+        const {defaultSchool} = this.props || {}
+        // console.log("state", this.state)
+        
+        console.log(this.state)
         return (
             <div className="add-campus-form">
                 <form onSubmit={this.onSubmitForm}>
@@ -65,6 +73,7 @@ class AddStudentForm extends Component {
                         value={this.state.localFirstName}
                         onChange={this.onChange}
                         name="localFirstName"
+                        required
                         />
                     <label htmlFor="localLastName">Last Name: </label>
                     <input
@@ -72,6 +81,7 @@ class AddStudentForm extends Component {
                         value={this.state.localLastName}
                         onChange={this.onChange}
                         name="localLastName"
+                        required
                         />
                     <label htmlFor="localEmail">Email: </label>
                     <input
@@ -79,11 +89,12 @@ class AddStudentForm extends Component {
                         value={this.state.localEmail}
                         onChange={this.onChange}
                         name="localEmail"
+                        required
                         />
                     <label htmlFor="school">School: </label>
                     {
-                        typeof this.props.defaultSchool === 'object' ? (
-                            <select name="school" onChange={this.onChange}><option value={this.props.defaultSchool.id}>{this.props.defaultSchool.name}</option></select>
+                        defaultSchool.id ? (
+                            <select name="school"><option value={defaultSchool.id}>{defaultSchool.name}</option></select>
                         ) : (
                             <select name="school" onChange={this.onChange}>
                                 <option value='null'>Select a School</option>

@@ -6,12 +6,14 @@ import campuses from './campuses'
 import students from './students'
 import singleCampusReducer from './singleCampus';
 import singleStudentReducer from './singleStudent';
+import errorReducer from './errorReducer';
 
 const reducer = combineReducers({
     campuses,
     students,
     singleCampusReducer,
     singleStudentReducer,
+    errorReducer
 })
 
 const middleware = composeWithDevTools(

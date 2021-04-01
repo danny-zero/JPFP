@@ -9,8 +9,8 @@ router.get('/', async (req, res, next) => {
 
         if (req.query.page) {
             console.log(req.query)
-            const endIndex = req.query.page * 2
-            const startIndex = endIndex - 2
+            const endIndex = req.query.page * 10
+            const startIndex = endIndex - 10
             const currentListings = campuses.slice(startIndex, endIndex)
             res.send(currentListings)
         } else {
@@ -19,6 +19,7 @@ router.get('/', async (req, res, next) => {
         }
     } catch (error) {
         console.error(error)
+        next(error)
     }
 });
 
@@ -28,7 +29,7 @@ router.get('/:campusId', async (req, res, next) => {
         res.send(singleCampus)
     } catch (error) {
         console.error(error)
-        res.send({data: 'not found'})
+        next(error)
     }
 });
 
@@ -42,17 +43,21 @@ router.get('/:campusId/students', async (req, res, next) => {
        res.send(campusStudents)
     } catch (error) {
         console.error(error)
+        next(error)
     }
 });
 
 
 router.post('/add-campus', async (req, res, next) => {
     try {
-        // console.log("req.body", req.body)
-        const newCampus = await Campus.create(req.body)
+        console.log("createCampus req.body", req.body)
+        const name = req.body.name
+        const address = req.body.address
+        const newCampus = await Campus.create({name, address})
         res.send(newCampus)
     } catch (error) {
         console.error(error)
+        next(error)
     }
 });
 
@@ -63,6 +68,7 @@ router.delete('/delete-campus/:id', async (req, res, next) => {
         res.send(campus)
     } catch (error) {
         console.error(error)
+        next(error)
     }
 });
 
@@ -77,6 +83,7 @@ router.put('/edit-campus/:id', async (req, res, next) => {
         res.send(campus)
     } catch (error) {
         console.error(error)
+        next(error)
     }
 });
 

@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchSingleStudent } from '../store/singleStudent';
 import axios from 'axios';
+import NotFound from './NotFound';
 
 const mapStateToProps = (state) => {
+    // console.log("singleStudentState", state)
     return {
         singleStudent: state.singleStudentReducer.singleStudent,
         studentCampus: state.singleStudentReducer.studentCampus,
-        loading: state.singleStudentReducer.loading
+        loading: state.singleStudentReducer.loading,
+        error: state.errorReducer.errorMessage
     }
 }
 
@@ -20,13 +23,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 class SingleStudent extends Component {
-    async componentWillMount() {
-        const test = (await axios.get(`/api/students/${this.props.match.params.studentId}`)).data
-        if (test.data === 'not found') {
-            this.props.history.push('/notfound')
-        }
-        // console.log("willMount", this.props.match.params)
-    }
 
     componentDidMount() {
         this.props.loadingStudent(this.props.match.params.studentId)
@@ -37,12 +33,16 @@ class SingleStudent extends Component {
 
     render() {
         const { singleStudent, studentCampus, loading } = this.props;
+        const {error} = this.props || ''
         // console.log("singleStudent", singleStudent)
         // console.log("singleCampus", studentCampus)
-        // console.log("loadingprops?", this.props)
+        // console.log("singleStudentProps", this.props)
+        // console.log("single student profile", singleStudent)
+        // console.log("singleStudent error", error)
+        if (error) return <NotFound error={error}/>
         if (loading) {
             return <h1>Loading...</h1>
-        }
+        } 
         return (
             <Container className="single-student-container">
                 <Row>
@@ -65,10 +65,12 @@ class SingleStudent extends Component {
                 </Row>
                 <Row>
                     <Col><h3>GPA: </h3></Col>
-                    <Col><h3 className={singleStudent.gpa > 2.3 ? 'gpa green-gpa' 
+                    <Col><h3 className={
+                                            !singleStudent.gpa  ? 'no-gpa'
+                                            : singleStudent.gpa > 2.3 ? 'gpa green-gpa' 
                                             : singleStudent.gpa < 2.3 && singleStudent.gpa >= 1.7 ? 'gpa orange-gpa' 
                                             : singleStudent.gpa < 1.7 ? 'gpa red-gpa' 
-                                            : '' }>{singleStudent.gpa}</h3></Col>
+                                            : ''}>{singleStudent.gpa}</h3></Col>
                 </Row>
             </Container>
         )

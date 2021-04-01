@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {ERROR, clearError} from './errorReducer';
 
 const GET_SINGLE_STUDENT = 'GET_SINGLE_STUDENT';
 const EDIT_STUDENT = 'EDIT_STUDENT';
@@ -10,13 +11,23 @@ const getSingleStudent = (student) => {
     }
 }
 
+const errorSingleStudent = (error) => {
+    return {
+        type: ERROR,
+        error
+    }
+}
+
 export const fetchSingleStudent = (id) => {
     return async (dispatch) => {
         try {
             const singleStudent = (await axios.get(`/api/students/${id}`)).data;
             dispatch(getSingleStudent(singleStudent))
+            dispatch(clearError())
         } catch (error) {
-            console.error(error)
+            console.log(Object.entries(error)[2][1].data)
+            const errorMessage = Object.entries(error)[2][1].data
+            dispatch(errorSingleStudent(errorMessage))
         }
     }
 }
@@ -32,7 +43,7 @@ export const editStudentThunk = (id, firstName, lastName, school, email, history
     return async (dispatch) => {
         const editedStudent = (await axios.put(`/api/students/edit-student/${id}`, {firstName, lastName, school, email})).data;
         dispatch(editSingleStudent(editedStudent))
-        history.push(`/students/${id}`)
+        history.push(`/students/single-student/${id}`)
     }
 }
 

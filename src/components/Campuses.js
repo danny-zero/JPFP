@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         loadCampuses: () => dispatch(fetchCampuses()),
         localDeleteCampus: (campus) => dispatch(deleteThunk(campus)),
-        filterCampuses: (filtered) => dispatch({type: FILTER_CAMPUSES, filtered})
+        filterCampuses: (filtered) => dispatch({type: FILTER_CAMPUSES, filtered}),
     }
 }
 
@@ -120,6 +120,7 @@ class Campuses extends Component {
     render() {
         // console.log("ALL CAMPUSES", this.props)
         const {campuses, history} = this.props
+        console.log(this.props)
         // console.log("HELLOOOOO", campuses)
         // console.log(campuses)
         // console.log("PROPS", this.props)
@@ -138,7 +139,7 @@ class Campuses extends Component {
                     <h2>Add Campus</h2>
                     </Modal.Header>
                     <Modal.Body>
-                        <AddCampusForm history={history} />
+                        <AddCampusForm history={history} modalControl={this.modalControl}/>
                     </Modal.Body>
                 </Modal>
                 <div className="sort-and-filter">

@@ -1,8 +1,10 @@
 import axios from 'axios';
+import {CREATE_STUDENT} from './students';
+import {ERROR, clearError} from './errorReducer';
 
 const GET_SINGLE_CAMPUS = 'GET_SINGLE_CAMPUS';
 const EDIT_CAMPUS = 'EDIT_CAMPUS';
-const UNREGISTER = 'UNREGISTER'
+const UNREGISTER = 'UNREGISTER';
 
 const getSingleCampus = (singleCampus, campusStudents) => {
     return {
@@ -12,14 +14,24 @@ const getSingleCampus = (singleCampus, campusStudents) => {
     }
 }
 
+const errorSingleCampus = (error) => {
+    return {
+        type: ERROR,
+        error
+    }
+}
+
 export const fetchSingleCampus = (id) => {
     return async (dispatch) => {
         try {
             const singleCampus = (await axios.get(`api/campuses/${id}`)).data;
             const campusStudents = (await axios.get(`api/campuses/${id}/students`)).data;
             dispatch(getSingleCampus(singleCampus, campusStudents))
+            dispatch(clearError())
         } catch (error) {
-            console.error(error)
+            console.log(Object.entries(error)[2][1].data)
+            const errorMessage = Object.entries(error)[2][1].data
+            dispatch(errorSingleCampus(errorMessage))
         }
     }
 }
@@ -66,6 +78,16 @@ const singleCampusReducer = (state = initialState, action) => {
             campusStudents: action.campusStudents
         }
     }
+        if (action.type === CREATE_STUDENT) {
+            if(action.student.campusId === state.singleCampus.id) {
+                return {
+                    ...state,
+                    campusStudents: [...state.campusStudents, action.student]
+                }
+            }
+
+        }
+
       if (action.type === EDIT_CAMPUS) {
         let updatedCampus = action.campus
         const newCampusState = {...state.singleCampus, updatedCampus}
@@ -77,6 +99,7 @@ const singleCampusReducer = (state = initialState, action) => {
             campusStudents: state.campusStudents.filter((student) => student.id !== action.student.id)
         }
     }
+    
     return state
 }
 

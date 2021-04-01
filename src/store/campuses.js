@@ -12,10 +12,15 @@ const getCampuses = (campuses) => {
     }
 }
 
+
 export const fetchCampuses = () => {
     return async (dispatch) => {
-        const campuses = (await axios.get('/api/campuses')).data;
-        dispatch(getCampuses(campuses))
+        try {
+            const campuses = (await axios.get('/api/campuses')).data;
+            dispatch(getCampuses(campuses))
+        } catch (error) {
+            console.log("Hello", Object.entries(error))
+        }
     }
 }
 

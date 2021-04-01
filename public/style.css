@@ -153,6 +153,10 @@ body {
   content: " (Still a goodpup! They are all goodpups!)";
 }
 
+.no-gpa::after {
+  content: "";
+}
+
 .doggo404 {
   display: flex;
   justify-content: center;

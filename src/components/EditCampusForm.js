@@ -39,7 +39,7 @@ class EditCampusForm extends Component {
         this.props.loadingCampus(this.props.match.params.campusId)
     }
 
-     componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps) {
         if(!prevProps.singleCampus.id && this.props.singleCampus.id) {
             this.setState({
                 name: this.props.singleCampus.name,
