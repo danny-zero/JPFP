@@ -86,6 +86,27 @@ body {
   display: flex;
 }
 
+.container {
+  margin-bottom: 5rem;
+}
+
+.card {
+  height: 20rem;
+  width: 20rem;
+  border-style: none;
+  border: none;
+  border-width: 0;
+}
+
+.card-img-top {
+  object-fit: cover;
+  border: 5px solid white;
+}
+
+.card-body {
+  border: none;
+}
+
 .campus-student-list button {
   margin-left: 10px;
 }

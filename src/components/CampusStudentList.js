@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, ListGroup, Table, Modal, Container, Row, Col, Button, Alert, Breadcrumb, Card, Form, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Accordion, ListGroup, Table, Modal, Container, Row, Col, Button, Alert, Breadcrumb, Card, CardGroup, Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import AddStudentForm from './AddStudentForm';
 
@@ -26,12 +26,25 @@ function CampusStudentList(props) {
                     </Accordion>
 
                 ) : (
-                    <ListGroup>
+                    <div  className="campus-student-list">
+                    <CardGroup>
                         {
-                            campusStudents.map(student => <div key={student.id} className="campus-student-list"><ListGroup.Item><Link to={`/students/single-student/${student.id}`}>{student.fullName}</Link><Button variant="outline-danger" onClick={() => props.unregister(campusId, student.id)}>Unregister</Button></ListGroup.Item></div>)
+                            campusStudents.map(student => 
+                                
+                                        <Card key={student.id} style={{ elevation: 0, borderColor: "transparent" }}>
+                                            <Card.Img variant="top" src={student.imageUrl} />
+                                            <Card.Body>
+                                                <Card.Title>
+                                                    <Link to={`/students/single-student/${student.id}`}>{student.fullName}</Link>
+                                                </Card.Title>
+                                                <Button variant="outline-danger" onClick={() => props.unregister(campusId, student.id)}>Unregister</Button>
+                                            </Card.Body>
+                                        </Card>
+                                    )
                             
                         }
-                    </ListGroup>
+                    </CardGroup>
+                    </div>
                 )
             }
         </Container>
