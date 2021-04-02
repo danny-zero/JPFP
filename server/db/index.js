@@ -119,7 +119,7 @@ const syncAndSeed = async () => {
 
     let breed;
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 30; i++) {
         try {
             breed = (await axios.get('https://dog.ceo/api/breeds/list/random')).data.message;
         } catch (error) {
@@ -144,7 +144,7 @@ const syncAndSeed = async () => {
 
 
     //CREATE STUDENTS
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 30; i++) {
         const {firstName, gender} = randomNameGenerator()
         const lastName = faker.name.lastName()
         const student = await Student.create({
