@@ -118,7 +118,12 @@ const syncAndSeed = async () => {
     const campusContainer = [];
 
     for (let i = 0; i < 100; i++) {
-        const breed = (await axios.get('https://dog.ceo/api/breeds/list/random')).data.message;
+        try {
+            const breed = (await axios.get('https://dog.ceo/api/breeds/list/random')).data.message;
+        } catch (error) {
+            console.error(error)
+        }
+
         const name = `${breed[0].toUpperCase() + breed.slice(1)} Obedience School`
         let description = []
         for (let i = 0; i < 3; i++) {
