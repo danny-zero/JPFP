@@ -122,22 +122,22 @@ const syncAndSeed = async () => {
     for (let i = 0; i < 100; i++) {
         try {
             breed = (await axios.get('https://dog.ceo/api/breeds/list/random')).data.message;
-        } catch (error) {
+
+            const name = `${breed[0].toUpperCase() + breed.slice(1)} Obedience School`
+            let description = []
+            for (let i = 0; i < 3; i++) {
+                description.push(faker.lorem.paragraph())
+                }
+            const campus = await Campus.create({
+                    name,
+                    imageUrl: campusImgArr[Math.floor(Math.random() * campusImgArr.length)],
+                    address: faker.address.streetAddress(),
+                    description
+            });
+            campusContainer.push(campus.id)
+            } catch (error) {
             console.error(error)
         }
-
-        const name = `${breed[0].toUpperCase() + breed.slice(1)} Obedience School`
-        let description = []
-        for (let i = 0; i < 3; i++) {
-            description.push(faker.lorem.paragraph())
-            }
-        const campus = await Campus.create({
-                name,
-                imageUrl: campusImgArr[Math.floor(Math.random() * campusImgArr.length)],
-                address: faker.address.streetAddress(),
-                description
-        });
-        campusContainer.push(campus.id)
     }
 
     //CREATE STUDENTS
