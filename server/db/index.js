@@ -117,9 +117,11 @@ const syncAndSeed = async () => {
     //CREATE CAMPUSES
     const campusContainer = [];
 
+    let breed;
+
     for (let i = 0; i < 100; i++) {
         try {
-            const breed = (await axios.get('https://dog.ceo/api/breeds/list/random')).data.message;
+            breed = (await axios.get('https://dog.ceo/api/breeds/list/random')).data.message;
         } catch (error) {
             console.error(error)
         }
